@@ -6,17 +6,17 @@ import java.util.List;
 import br.com.lbmc.cm.excecao.ExplosaoException;
 
 public class Campo {
-	
+
 	private final int linha;
 	private final int coluna;
 	
 	private boolean aberto = false;
 	private boolean minado = false;
-	private boolean marcado;
+	private boolean marcado = false;
 	
 	private List<Campo> vizinhos = new ArrayList<>();
 	
-	Campo(int linha, int coluna){
+	Campo(int linha, int coluna) {
 		this.linha = linha;
 		this.coluna = coluna;
 	}
@@ -28,19 +28,19 @@ public class Campo {
 		
 		int deltaLinha = Math.abs(linha - vizinho.linha);
 		int deltaColuna = Math.abs(coluna - vizinho.coluna);
-		int deltaGeral = deltaColuna + deltaLinha;
+		int detalGeral = deltaColuna + deltaLinha;
 		
-		if (deltaGeral == 1 && !diagonal) {
+		if(detalGeral == 1 && !diagonal) {
 			vizinhos.add(vizinho);
 			return true;
-		} else if (deltaGeral == 2 && diagonal) {
+		} else if(detalGeral == 2 && diagonal) {
 			vizinhos.add(vizinho);
 			return true;
 		} else {
 			return false;
 		}
 	}
-
+	
 	void alternarMarcacao() {
 		if(!aberto) {
 			marcado = !marcado;
@@ -48,6 +48,7 @@ public class Campo {
 	}
 	
 	boolean abrir() {
+		
 		if(!aberto && !marcado) {
 			aberto = true;
 			
@@ -58,9 +59,10 @@ public class Campo {
 			if(vizinhancaSegura()) {
 				vizinhos.forEach(v -> v.abrir());
 			}
+			
 			return true;
 		} else {
-			return false;
+			return false;			
 		}
 	}
 	
@@ -72,15 +74,23 @@ public class Campo {
 		minado = true;
 	}
 	
+	public boolean isMinado() {
+		return minado;
+	}
+	
 	public boolean isMarcado() {
 		return marcado;
 	}
 	
+	void setAberto(boolean aberto) {
+		this.aberto = aberto;
+	}
+
 	public boolean isAberto() {
 		return aberto;
 	}
-	
-	public boolean isFechadoo() {
+
+	public boolean isFechado() {
 		return !isAberto();
 	}
 
